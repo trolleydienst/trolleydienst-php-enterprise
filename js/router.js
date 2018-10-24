@@ -8,7 +8,7 @@ function Router(routes) {
         this.constructor(routes)
         this.init()
     } catch (e) {
-        console.log(e)
+        console.error(e)
     }
 }
 
@@ -19,16 +19,16 @@ Router.prototype = {
         this.routes = routes
         this.rootElem = document.getElementById('app')
     },
-    init: function () {
-        var r = this.routes
+    init() {
+        var r = this.routes;
         (function (scope, r) {
-            window.addEventListener('hasChanged', function (e) {
-                scope.hasChanged(scope, r)
+            window.addEventListener('hashchange', function (e) {
+                scope.hashChange(scope, r)
             })
         })(this, r)
         this.hasChanged(this, r)
     },
-    hasChanged: function (scope, r) {
+    hashChange(scope, r) {
         if(window.location.hash.length > 0) {
             for (var i = 0, length = r.length; i < length; i++) {
                 var route = r[i]
@@ -45,7 +45,7 @@ Router.prototype = {
             }
         }
     },
-    goToRoute: function (htmlName) {
+    goToRoute(htmlName) {
         (function (scope) {
             var url = 'views/' + htmlName,
                 xhttp = new XMLHttpRequest()
